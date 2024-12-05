@@ -7,11 +7,15 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import "~/index.css";
+import { useSession } from "./lib/auth-client";
 
 // Set up a Router instance
 const router = createRouter({
   routeTree,
   defaultPreload: "intent",
+  context: {
+    session: undefined!,
+  },
 });
 
 // Register things for typesafety
@@ -23,7 +27,12 @@ declare module "@tanstack/react-router" {
 
 const rootElement = document.getElementById("app")!;
 
+const App = () => {
+  const session = useSession();
+  return <RouterProvider router={router} context={{ session }} />;
+};
+
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
-  root.render(<RouterProvider router={router} />);
+  root.render(<App />);
 }

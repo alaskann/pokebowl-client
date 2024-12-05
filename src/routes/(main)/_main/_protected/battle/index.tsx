@@ -1,13 +1,13 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { BattleStand } from "./-components/battle-stand";
-import { Button } from "@mui/material";
-import { POKEMON_BATTLE_QUERY_KEY } from "~/constants";
-import { useQuery } from "@tanstack/react-query";
-import { fetchRandomPokemonPair } from "~/data";
+import { createFileRoute } from '@tanstack/react-router'
+import { BattleStand } from './-components/battle-stand'
+import { Button } from '@mui/material'
+import { POKEMON_BATTLE_QUERY_KEY } from '~/constants'
+import { useQuery } from '@tanstack/react-query'
+import { fetchRandomPokemonPair } from '~/data'
 
-export const Route = createFileRoute("/battle/")({
+export const Route = createFileRoute('/(main)/_main/_protected/battle/')({
   component: RouteComponent,
-});
+})
 
 function RouteComponent() {
   const query = useQuery({
@@ -15,7 +15,7 @@ function RouteComponent() {
     queryFn: fetchRandomPokemonPair,
     refetchOnMount: false,
     staleTime: Infinity,
-  });
+  })
 
   return (
     <div className="gap-y-std-sm relative px-std-content pb-std-content h-full overflow-hidden flex flex-col">
@@ -39,7 +39,7 @@ function RouteComponent() {
       <div className="flex justify-end">
         <Button
           onClick={() => {
-            query.refetch();
+            query.refetch()
           }}
           className=""
         >
@@ -47,5 +47,5 @@ function RouteComponent() {
         </Button>
       </div>
     </div>
-  );
+  )
 }

@@ -1,9 +1,15 @@
-import { Outlet, createRootRoute } from "@tanstack/react-router";
+import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
+import { Session } from "better-auth/types";
 import { Toaster } from "sonner";
 import { Nav } from "~/components/nav";
 import { Providers } from "~/components/providers";
+import { useSession } from "~/lib/auth-client";
 
-export const Route = createRootRoute({
+interface RouterContext {
+  session: ReturnType<typeof useSession>;
+}
+
+export const Route = createRootRouteWithContext<RouterContext>()({
   component: RootComponent,
 });
 
