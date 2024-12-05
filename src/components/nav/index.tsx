@@ -2,6 +2,9 @@ import { Link } from "@tanstack/react-router";
 import HomeIcon from "@mui/icons-material/Home";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import { FileRoutesByPath } from "@tanstack/react-router";
+import { useSession } from "~/lib/auth-client";
+import { Avatar } from "@mui/material";
+import { UserDropdown } from "~/routes/(main)/_main/-components/user-dropdown";
 
 type Link = {
   to: keyof FileRoutesByPath; // Ensure `to` is a valid key from `FileRoutesByPath`
@@ -18,6 +21,8 @@ const links: Link[] = [
 ];
 
 export function Nav() {
+  const { data: session, error } = useSession();
+
   return (
     <nav className="p-std-content flex justify-between h-20">
       <div className="flex-1 flex items-center">
@@ -44,6 +49,7 @@ export function Nav() {
         </Link>
       </div>
       <div className="flex gap-x-std-md items-center flex-1 justify-end">
+        <UserDropdown />
         <Link
           to="/battle"
           activeProps={{

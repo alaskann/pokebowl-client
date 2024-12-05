@@ -1,21 +1,23 @@
-import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
-import { useSession } from "~/lib/auth-client";
+import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+import { getSession } from "~/lib/auth-client";
+import { AuthHead } from "./_auth/-components/auth-head";
 
 export const Route = createFileRoute("/(auth)/_auth")({
   component: RouteComponent,
+  beforeLoad: async () => {
+    const { data: session, error } = await getSession();
+    if (session)
+      throw redirect({
+        to: "/",
+      });
+  },
 });
 
 function RouteComponent() {
-  const { data: session, isPending } = useSession();
-  const navigate = useNavigate();
-
-  if (session) navigate({ to: "/" });
-
-  if (isPending) return;
-
   return (
-    <div>
-      Hello "/(auth)/_layout"! <Outlet />
-    </div>
+    <>
+      <AuthHead />
+      <Outlet />
+    </>
   );
 }

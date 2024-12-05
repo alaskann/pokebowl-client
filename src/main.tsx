@@ -7,7 +7,7 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import "~/index.css";
-import { useSession } from "./lib/auth-client";
+import { getSession, useSession } from "./lib/auth-client";
 
 // Set up a Router instance
 const router = createRouter({

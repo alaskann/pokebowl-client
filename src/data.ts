@@ -7,7 +7,7 @@ export async function fetchRandomPokemonPair() {
   const promises = ids.map(async (id) => {
     const res = (await fetch(getPokemonEndpoint(id)).then((res) =>
       res.json()
-    )) as Pokemon;
+    )) as Pokemon; // TODO: Finish validation schema
     // const parsedRes = pokemonSchema.parse(res);
     // console.log(parsedRes);
     // return parsedRes;

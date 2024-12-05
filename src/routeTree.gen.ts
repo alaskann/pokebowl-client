@@ -13,11 +13,11 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
 import { Route as mainMainImport } from './routes/(main)/_main'
 import { Route as authAuthImport } from './routes/(auth)/_auth'
 import { Route as mainMainProtectedImport } from './routes/(main)/_main/_protected'
+import { Route as authAuthLoginIndexImport } from './routes/(auth)/_auth/login/index'
 import { Route as authAuthJoinIndexImport } from './routes/(auth)/_auth/join/index'
 import { Route as mainMainProtectedRandomIndexImport } from './routes/(main)/_main/_protected/random/index'
 import { Route as mainMainProtectedBattleIndexImport } from './routes/(main)/_main/_protected/battle/index'
@@ -40,12 +40,6 @@ const authRoute = authImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const AboutRoute = AboutImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
@@ -65,6 +59,12 @@ const authAuthRoute = authAuthImport.update({
 const mainMainProtectedRoute = mainMainProtectedImport.update({
   id: '/_protected',
   getParentRoute: () => mainMainRoute,
+} as any)
+
+const authAuthLoginIndexRoute = authAuthLoginIndexImport.update({
+  id: '/login/',
+  path: '/login/',
+  getParentRoute: () => authAuthRoute,
 } as any)
 
 const authAuthJoinIndexRoute = authAuthJoinIndexImport.update({
@@ -96,13 +96,6 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutImport
       parentRoute: typeof rootRoute
     }
     '/(auth)': {
@@ -147,6 +140,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authAuthJoinIndexImport
       parentRoute: typeof authAuthImport
     }
+    '/(auth)/_auth/login/': {
+      id: '/(auth)/_auth/login/'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof authAuthLoginIndexImport
+      parentRoute: typeof authAuthImport
+    }
     '/(main)/_main/_protected/battle/': {
       id: '/(main)/_main/_protected/battle/'
       path: '/battle'
@@ -168,10 +168,12 @@ declare module '@tanstack/react-router' {
 
 interface authAuthRouteChildren {
   authAuthJoinIndexRoute: typeof authAuthJoinIndexRoute
+  authAuthLoginIndexRoute: typeof authAuthLoginIndexRoute
 }
 
 const authAuthRouteChildren: authAuthRouteChildren = {
   authAuthJoinIndexRoute: authAuthJoinIndexRoute,
+  authAuthLoginIndexRoute: authAuthLoginIndexRoute,
 }
 
 const authAuthRouteWithChildren = authAuthRoute._addFileChildren(
@@ -225,18 +227,18 @@ const mainRouteWithChildren = mainRoute._addFileChildren(mainRouteChildren)
 
 export interface FileRoutesByFullPath {
   '/': typeof mainMainRouteWithChildren
-  '/about': typeof AboutRoute
   '': typeof mainMainProtectedRouteWithChildren
   '/join': typeof authAuthJoinIndexRoute
+  '/login': typeof authAuthLoginIndexRoute
   '/battle': typeof mainMainProtectedBattleIndexRoute
   '/random': typeof mainMainProtectedRandomIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof mainMainRouteWithChildren
-  '/about': typeof AboutRoute
   '': typeof mainMainProtectedRouteWithChildren
   '/join': typeof authAuthJoinIndexRoute
+  '/login': typeof authAuthLoginIndexRoute
   '/battle': typeof mainMainProtectedBattleIndexRoute
   '/random': typeof mainMainProtectedRandomIndexRoute
 }
@@ -244,32 +246,32 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
   '/(auth)': typeof authRouteWithChildren
   '/(auth)/_auth': typeof authAuthRouteWithChildren
   '/(main)': typeof mainRouteWithChildren
   '/(main)/_main': typeof mainMainRouteWithChildren
   '/(main)/_main/_protected': typeof mainMainProtectedRouteWithChildren
   '/(auth)/_auth/join/': typeof authAuthJoinIndexRoute
+  '/(auth)/_auth/login/': typeof authAuthLoginIndexRoute
   '/(main)/_main/_protected/battle/': typeof mainMainProtectedBattleIndexRoute
   '/(main)/_main/_protected/random/': typeof mainMainProtectedRandomIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '' | '/join' | '/battle' | '/random'
+  fullPaths: '/' | '' | '/join' | '/login' | '/battle' | '/random'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '' | '/join' | '/battle' | '/random'
+  to: '/' | '' | '/join' | '/login' | '/battle' | '/random'
   id:
     | '__root__'
     | '/'
-    | '/about'
     | '/(auth)'
     | '/(auth)/_auth'
     | '/(main)'
     | '/(main)/_main'
     | '/(main)/_main/_protected'
     | '/(auth)/_auth/join/'
+    | '/(auth)/_auth/login/'
     | '/(main)/_main/_protected/battle/'
     | '/(main)/_main/_protected/random/'
   fileRoutesById: FileRoutesById
@@ -277,14 +279,12 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AboutRoute: typeof AboutRoute
   authRoute: typeof authRouteWithChildren
   mainRoute: typeof mainRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AboutRoute: AboutRoute,
   authRoute: authRouteWithChildren,
   mainRoute: mainRouteWithChildren,
 }
@@ -300,16 +300,12 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/about",
         "/(auth)",
         "/(main)"
       ]
     },
     "/": {
       "filePath": "index.tsx"
-    },
-    "/about": {
-      "filePath": "about.tsx"
     },
     "/(auth)": {
       "filePath": "(auth)",
@@ -321,7 +317,8 @@ export const routeTree = rootRoute
       "filePath": "(auth)/_auth.tsx",
       "parent": "/(auth)",
       "children": [
-        "/(auth)/_auth/join/"
+        "/(auth)/_auth/join/",
+        "/(auth)/_auth/login/"
       ]
     },
     "/(main)": {
@@ -347,6 +344,10 @@ export const routeTree = rootRoute
     },
     "/(auth)/_auth/join/": {
       "filePath": "(auth)/_auth/join/index.tsx",
+      "parent": "/(auth)/_auth"
+    },
+    "/(auth)/_auth/login/": {
+      "filePath": "(auth)/_auth/login/index.tsx",
       "parent": "/(auth)/_auth"
     },
     "/(main)/_main/_protected/battle/": {

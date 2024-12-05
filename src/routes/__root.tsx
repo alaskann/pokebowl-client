@@ -18,13 +18,15 @@ function RootComponent() {
     <Providers>
       <div className="flex justify-center w-full h-screen antialiased">
         <div className="max-w-2xl w-full box-border">
-          <Nav />
-          <div>
-            <Outlet />
-          </div>
+          <Outlet />
         </div>
       </div>
       <Toaster />
     </Providers>
   );
 }
+
+// <Nav />
+// <div>
+//   <Outlet />
+// </div>

@@ -1,28 +1,24 @@
 import { Button, TextField } from "@mui/material";
-import { redirect, useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
-import { signUp } from "~/lib/auth-client";
+import { signIn } from "~/lib/auth-client";
 
-export function JoinForm() {
+export function LoginForm() {
   const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
 
   const handleSignUp = async () => {
-    const { data, error } = await signUp.email(
+    const { error } = await signIn.email(
       {
         email,
-        name,
         password,
-        image: undefined,
       },
       {
         onSuccess: () => {
-          toast("Join successful");
-          navigate({ to: "/" });
+          navigate({ to: "/battle" });
         },
         onError: (ctx) => {
           toast.error(ctx.error.message);
@@ -33,7 +29,7 @@ export function JoinForm() {
   };
 
   return (
-    <div>
+    <div className="flex flex-col gap-y-std-md">
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -53,14 +49,6 @@ export function JoinForm() {
           />
           <TextField
             id="outlined-basic"
-            label="name"
-            variant="outlined"
-            type="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-          <TextField
-            id="outlined-basic"
             label="password"
             variant="outlined"
             type="password"
@@ -68,10 +56,17 @@ export function JoinForm() {
             onChange={(e) => setPassword(e.target.value)}
           />
           <Button type="submit" variant="contained" className="self-end">
-            Join
+            Login
           </Button>
         </div>
       </form>
+      <div className="text-right">
+        Don't have an account?{" "}
+        <Link to="/join" className="underline">
+          Join
+        </Link>{" "}
+        instead.
+      </div>
     </div>
   );
 }
