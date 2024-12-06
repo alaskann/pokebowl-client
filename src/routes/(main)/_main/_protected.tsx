@@ -15,10 +15,5 @@ export const Route = createFileRoute("/(main)/_main/_protected")({
 });
 
 function RouteComponent() {
-  return (
-    <>
-      protected
-      <Outlet />
-    </>
-  );
+  return <Outlet />;
 }
