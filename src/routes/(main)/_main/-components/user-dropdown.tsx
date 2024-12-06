@@ -19,7 +19,7 @@ export function UserDropdown() {
   };
 
   return (
-    <div>
+    <div className="h-full">
       <button
         id="basic-button"
         aria-controls={open ? "basic-menu" : undefined}
@@ -40,8 +40,6 @@ export function UserDropdown() {
         className="mt-std-sm"
       >
         <div className="px-4 py-2">Welcome {session?.user.name}!</div>
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
         <MenuItem
           onClick={async () => {
             handleClose();

@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "mui-sonner";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { Nav } from "~/components/nav";
+import { Nav } from "~/routes/(main)/_main/-components/nav";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 export function Providers({ children }: { children: React.ReactNode }) {

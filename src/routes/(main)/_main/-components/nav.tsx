@@ -14,7 +14,7 @@ type Link = {
 
 const links: Link[] = [
   {
-    to: "/about",
+    to: "/",
     label: "Contestants",
     icon: <QuestionMarkIcon />,
   },
@@ -27,7 +27,7 @@ export function Nav() {
     <nav className="p-std-content flex justify-between h-20">
       <div className="flex-1 flex items-center">
         <Link
-          to="/about"
+          to="/"
           activeProps={{
             className: "underscore",
           }}
@@ -55,7 +55,7 @@ export function Nav() {
           activeProps={{
             className: "",
           }}
-          className="text-blue-700 bg-yellow-500 px-5 py-2 rounded-md shadow text-primary-foreground border-t-0 border-r-0 border-[2.5px] border-blue-800"
+          className="h-full text-blue-700 bg-yellow-500 px-5 py-2 rounded-md shadow text-primary-foreground border-t-0 border-r-0 border-[2.5px] border-blue-800"
         >
           Battle
         </Link>
