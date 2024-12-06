@@ -1,23 +1,48 @@
 import { ButtonBase, Card, Chip } from "@mui/material";
 import { Pokemon } from "~/lib/schemas";
 import { cn } from "~/utils";
+import { WinnerOverlay } from "./winner-overlay";
+import { useState } from "react";
+import { ContestantFrame } from "./contestant-frame";
 
 export function BattleStand({
   pokemon,
+  onWin,
+  background,
   className,
 }: {
   pokemon: Pokemon;
+  onWin: (winner: string) => void;
+  background: string;
   className?: string;
 }) {
+  console.log("background: " + background);
+  const [showWinnerOverlay, setShowWinnerOverlay] = useState(false);
+
+  const handleInitiateWin = () => {
+    setShowWinnerOverlay(true);
+    setTimeout(() => {
+      setShowWinnerOverlay(false);
+      onWin(pokemon.name);
+    }, 1000);
+  };
+
   return (
     <ButtonBase
-      className={cn("w-full select-none hover:cursor-pointer", className)}
+      className={cn(
+        "w-full select-none hover:cursor-pointer relative",
+        className
+      )}
     >
-      <Card className="w-full box-border p-std-sm flex items-stretch">
-        <div className="bg-background rounded-md h-full">
+      <WinnerOverlay show={showWinnerOverlay} />
+      <Card
+        className="w-full box-border p-std-sm flex"
+        onClick={() => handleInitiateWin()}
+      >
+        <ContestantFrame background={background}>
           <img src={pokemon.sprites.front_default} className="object-cover" />
-        </div>
-        <div className="flex flex-col p-std-sm gap-y-2">
+        </ContestantFrame>
+        <div className="flex p-std-sm gap-y-2">
           <div className="flex">
             <span className="text-2xl">{pokemon.name}</span>
           </div>
@@ -37,3 +62,5 @@ export function BattleStand({
     </ButtonBase>
   );
 }
+
+//mode: "sync"

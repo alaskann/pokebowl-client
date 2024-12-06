@@ -24,9 +24,9 @@ export function JoinForm() {
     },
     validators: { onChange: joinSchema },
     validatorAdapter: zodValidator(),
-    onSubmit: async (values) => {
+    onSubmit: async () => {
       if (form.state.isValid) {
-        const { data, error } = await signUp.email(
+        await signUp.email(
           {
             email: form.state.values.email,
             name: form.state.values.name,

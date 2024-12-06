@@ -1,4 +1,6 @@
+import { authClient } from "./lib/auth-client";
 import { Pokemon, pokemonSchema } from "./lib/schemas";
+import { Battle } from "./lib/types";
 import { getPokemonEndpoint, getRandomPokemonPair } from "./utils";
 
 export async function fetchRandomPokemonPair() {
@@ -15,4 +17,19 @@ export async function fetchRandomPokemonPair() {
   });
 
   return await Promise.all(promises);
+}
+
+export async function createBattle(input: Battle) {
+  const response = await fetch(
+    `${import.meta.env.VITE_API_BASE_URL}/api/battle`,
+    {
+      method: "POST",
+      credentials: "include",
+      body: JSON.stringify(input),
+    }
+  );
+  if (!response.ok) {
+    throw new Error("Network request failed.");
+  }
+  return response.json();
 }

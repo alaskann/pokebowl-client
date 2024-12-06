@@ -21,7 +21,6 @@ function RootComponent() {
           <Outlet />
         </div>
       </div>
-      <Toaster />
     </Providers>
   );
 }
