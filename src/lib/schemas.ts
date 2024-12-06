@@ -63,5 +63,13 @@ export const pokemonSchema = z.object({
   held_items,
   past_types: z.unknown(), // type.array(),
   past_abilites: ability.array(), //
-  sprites: z.unknown(),
+  sprites: z.object({
+    back_default: z.string().optional(),
+    back_shiny: z.string().optional(),
+    back_shiny_female: z.string().optional(),
+    front_default: z.string().optional(),
+    front_female: z.string().optional(),
+    front_shiny: z.string().optional(),
+    front_shiny_female: z.string().optional(),
+  }),
 });

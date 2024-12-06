@@ -2,49 +2,59 @@ import { ButtonBase, Card, Chip } from "@mui/material";
 import { Pokemon } from "~/lib/schemas";
 import { cn } from "~/utils";
 import { WinnerOverlay } from "./winner-overlay";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ContestantFrame } from "./contestant-frame";
 
 export function BattleStand({
   pokemon,
-  onWin,
+  disabled,
   background,
+  onDisableSelection,
+  onWin,
   className,
 }: {
   pokemon: Pokemon;
-  onWin: (winner: string) => void;
+  disabled: boolean;
   background: string;
+  onDisableSelection: () => void;
+  onWin: (winner: string) => void;
   className?: string;
 }) {
-  console.log("background: " + background);
   const [showWinnerOverlay, setShowWinnerOverlay] = useState(false);
 
   const handleInitiateWin = () => {
     setShowWinnerOverlay(true);
     setTimeout(() => {
-      setShowWinnerOverlay(false);
       onWin(pokemon.name);
     }, 1000);
   };
 
   return (
     <ButtonBase
+      // disabled={disabled}
       className={cn(
-        "w-full select-none hover:cursor-pointer relative",
+        "w-full relative select-none overflow-hidden",
+        !disabled ? "hover:cursor-pointer" : null,
         className
       )}
     >
       <WinnerOverlay show={showWinnerOverlay} />
       <Card
         className="w-full box-border p-std-sm flex"
-        onClick={() => handleInitiateWin()}
+        onClick={() => {
+          if (disabled) return;
+          onDisableSelection();
+          handleInitiateWin();
+        }}
       >
         <ContestantFrame background={background}>
           <img src={pokemon.sprites.front_default} className="object-cover" />
         </ContestantFrame>
-        <div className="flex p-std-sm gap-y-2">
+        <div className="flex flex-col py-std-sm px-std-md gap-y-2">
           <div className="flex">
-            <span className="text-2xl">{pokemon.name}</span>
+            <span className="text-2xl uppercase tracking-wide font-semibold">
+              {pokemon.name}
+            </span>
           </div>
           <div className="flex flex-wrap gap-std-sm">
             <Chip
@@ -62,5 +72,3 @@ export function BattleStand({
     </ButtonBase>
   );
 }
-
-//mode: "sync"

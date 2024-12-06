@@ -15,6 +15,11 @@ export const Route = createFileRoute("/(main)/_main/_protected/battle/")({
 });
 
 function RouteComponent() {
+  const [backgrounds, setBackgrounds] = useState<string[]>(
+    getUniqueRandomBackgrounds(backgroundsArray, 2)
+  );
+  const [disableSelection, setDisableSelection] = useState(false);
+
   const query = useQuery({
     queryKey: [POKEMON_BATTLE_QUERY_KEY],
     queryFn: fetchRandomPokemonPair,
@@ -22,19 +27,22 @@ function RouteComponent() {
     staleTime: Infinity,
   });
 
+  useEffect(() => {
+    console.log("Query data has changed");
+  }, query.data);
+
   const mutation = useMutation({
     mutationKey: ["pokemon-battle"],
     mutationFn: createBattle,
     onMutate: () => {
-      // Highlight winner green
+      setDisableSelection(true);
     },
     onSuccess: () => query.refetch(),
     onError: (e) => toast.error(e.message),
+    onSettled: () => {
+      setDisableSelection(false);
+    },
   });
-
-  const [backgrounds, setBackgrounds] = useState<string[]>(
-    getUniqueRandomBackgrounds(backgroundsArray, 2)
-  );
 
   useEffect(() => {
     setBackgrounds(getUniqueRandomBackgrounds(backgroundsArray, 2));
@@ -49,7 +57,11 @@ function RouteComponent() {
 
     mutation.mutate(
       { winner, loser },
-      { onSuccess: () => toast(`${winner} wins`) }
+      {
+        onSuccess: () => {
+          toast.success(`${winner} wins`, { icon: <span>💥</span> });
+        },
+      }
     );
   };
 
@@ -59,30 +71,29 @@ function RouteComponent() {
         Fight!
       </div> */}
       <div className="flex flex-col gap-y-std-md bg-std-content 2xl:gap-x-std-sm">
-        <AnimatePresence mode="wait">
-          {Array.from({ length: 2 }).map((_, index) => {
-            return (
-              //getUniqueRandomBackgrounds(backgrounds, 2)[index]
-
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                key={Math.random()} // TODO: Bad practice
-                className="flex relative"
-              >
-                {query.data && (
-                  <BattleStand
-                    pokemon={query.data[index]}
-                    onWin={(winner) => handleWin(winner)}
-                    background={backgrounds[index]}
-                  />
-                )}
-              </motion.div>
-            );
-          })}
-        </AnimatePresence>
+        {/* <AnimatePresence mode="wait"> */}
+        {query.data?.map((pokemon, index) => (
+          <div
+            // initial={{ opacity: 0 }}
+            // animate={{ opacity: 1 }}
+            // exit={{ opacity: 0 }}
+            // transition={{ duration: 0.3 }}
+            key={pokemon.id}
+            className="flex relative"
+          >
+            {query.data && (
+              <BattleStand
+                pokemon={pokemon}
+                onWin={(winner) => handleWin(winner)}
+                onDisableSelection={() => setDisableSelection(true)}
+                disabled={
+                  disableSelection || mutation.isPending || query.isPending
+                }
+                background={backgrounds[index]}
+              />
+            )}
+          </div>
+        ))}
       </div>
       <div className="flex justify-end">
         <Button
