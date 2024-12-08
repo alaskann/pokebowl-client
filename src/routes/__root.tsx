@@ -1,7 +1,4 @@
 import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
-import { Session } from "better-auth/types";
-import { Toaster } from "sonner";
-import { Nav } from "~/routes/(main)/_main/-components/nav";
 import { Providers } from "~/components/providers";
 import { useSession } from "~/lib/auth-client";
 
@@ -24,8 +21,3 @@ function RootComponent() {
     </Providers>
   );
 }
-
-// <Nav />
-// <div>
-//   <Outlet />
-// </div>

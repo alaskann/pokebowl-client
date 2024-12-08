@@ -4,8 +4,7 @@ import { getSession } from "~/lib/auth-client";
 export const Route = createFileRoute("/(main)/_main/_protected")({
   component: RouteComponent,
   beforeLoad: async () => {
-    const { data: session, error } = await getSession();
-    console.log("data", session);
+    const session = await getSession();
     if (!session) {
       throw redirect({
         to: "/login",
