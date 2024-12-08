@@ -65,6 +65,8 @@ function RouteComponent() {
     );
   };
 
+  if (!query.data) return false;
+
   return (
     <div className="gap-y-std-sm relative px-std-content pb-std-content h-full overflow-hidden flex flex-col">
       {/* <div className="flex text-center space-x-3 justify-between items-center font-semibold">
@@ -81,20 +83,19 @@ function RouteComponent() {
             key={pokemon.id}
             className="flex relative"
           >
-            {query.data && (
-              <BattleStand
-                pokemon={pokemon}
-                onWin={(winner) => handleWin(winner)}
-                onDisableSelection={() => setDisableSelection(true)}
-                disabled={
-                  disableSelection || mutation.isPending || query.isPending
-                }
-                background={backgrounds[index]}
-              />
-            )}
+            <BattleStand
+              pokemon={pokemon}
+              onWin={(winner) => handleWin(winner)}
+              onDisableSelection={() => setDisableSelection(true)}
+              disabled={
+                disableSelection || mutation.isPending || query.isPending
+              }
+              background={backgrounds[index]}
+            />
           </div>
         ))}
       </div>
+
       <div className="flex justify-end">
         <Button
           onClick={() => {

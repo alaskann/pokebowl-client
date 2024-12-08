@@ -27,7 +27,11 @@ export function UserDropdown() {
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
       >
-        <Avatar alt="Profile Image" src={DEFAULT_AVATAR_URL} />
+        <Avatar
+          alt="Profile Image"
+          src={DEFAULT_AVATAR_URL}
+          className="border-2 border-blue-800"
+        />
       </button>
       <Menu
         id="basic-menu"

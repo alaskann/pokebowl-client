@@ -19,6 +19,7 @@ import { Route as authAuthImport } from './routes/(auth)/_auth'
 import { Route as mainMainProtectedImport } from './routes/(main)/_main/_protected'
 import { Route as authAuthLoginIndexImport } from './routes/(auth)/_auth/login/index'
 import { Route as authAuthJoinIndexImport } from './routes/(auth)/_auth/join/index'
+import { Route as mainMainProtectedStatsIndexImport } from './routes/(main)/_main/_protected/stats/index'
 import { Route as mainMainProtectedRandomIndexImport } from './routes/(main)/_main/_protected/random/index'
 import { Route as mainMainProtectedBattleIndexImport } from './routes/(main)/_main/_protected/battle/index'
 
@@ -72,6 +73,13 @@ const authAuthJoinIndexRoute = authAuthJoinIndexImport.update({
   path: '/join/',
   getParentRoute: () => authAuthRoute,
 } as any)
+
+const mainMainProtectedStatsIndexRoute =
+  mainMainProtectedStatsIndexImport.update({
+    id: '/stats/',
+    path: '/stats/',
+    getParentRoute: () => mainMainProtectedRoute,
+  } as any)
 
 const mainMainProtectedRandomIndexRoute =
   mainMainProtectedRandomIndexImport.update({
@@ -161,6 +169,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof mainMainProtectedRandomIndexImport
       parentRoute: typeof mainMainProtectedImport
     }
+    '/(main)/_main/_protected/stats/': {
+      id: '/(main)/_main/_protected/stats/'
+      path: '/stats'
+      fullPath: '/stats'
+      preLoaderRoute: typeof mainMainProtectedStatsIndexImport
+      parentRoute: typeof mainMainProtectedImport
+    }
   }
 }
 
@@ -193,11 +208,13 @@ const authRouteWithChildren = authRoute._addFileChildren(authRouteChildren)
 interface mainMainProtectedRouteChildren {
   mainMainProtectedBattleIndexRoute: typeof mainMainProtectedBattleIndexRoute
   mainMainProtectedRandomIndexRoute: typeof mainMainProtectedRandomIndexRoute
+  mainMainProtectedStatsIndexRoute: typeof mainMainProtectedStatsIndexRoute
 }
 
 const mainMainProtectedRouteChildren: mainMainProtectedRouteChildren = {
   mainMainProtectedBattleIndexRoute: mainMainProtectedBattleIndexRoute,
   mainMainProtectedRandomIndexRoute: mainMainProtectedRandomIndexRoute,
+  mainMainProtectedStatsIndexRoute: mainMainProtectedStatsIndexRoute,
 }
 
 const mainMainProtectedRouteWithChildren =
@@ -232,6 +249,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof authAuthLoginIndexRoute
   '/battle': typeof mainMainProtectedBattleIndexRoute
   '/random': typeof mainMainProtectedRandomIndexRoute
+  '/stats': typeof mainMainProtectedStatsIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -241,6 +259,7 @@ export interface FileRoutesByTo {
   '/login': typeof authAuthLoginIndexRoute
   '/battle': typeof mainMainProtectedBattleIndexRoute
   '/random': typeof mainMainProtectedRandomIndexRoute
+  '/stats': typeof mainMainProtectedStatsIndexRoute
 }
 
 export interface FileRoutesById {
@@ -255,13 +274,14 @@ export interface FileRoutesById {
   '/(auth)/_auth/login/': typeof authAuthLoginIndexRoute
   '/(main)/_main/_protected/battle/': typeof mainMainProtectedBattleIndexRoute
   '/(main)/_main/_protected/random/': typeof mainMainProtectedRandomIndexRoute
+  '/(main)/_main/_protected/stats/': typeof mainMainProtectedStatsIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '' | '/join' | '/login' | '/battle' | '/random'
+  fullPaths: '/' | '' | '/join' | '/login' | '/battle' | '/random' | '/stats'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '' | '/join' | '/login' | '/battle' | '/random'
+  to: '/' | '' | '/join' | '/login' | '/battle' | '/random' | '/stats'
   id:
     | '__root__'
     | '/'
@@ -274,6 +294,7 @@ export interface FileRouteTypes {
     | '/(auth)/_auth/login/'
     | '/(main)/_main/_protected/battle/'
     | '/(main)/_main/_protected/random/'
+    | '/(main)/_main/_protected/stats/'
   fileRoutesById: FileRoutesById
 }
 
@@ -339,7 +360,8 @@ export const routeTree = rootRoute
       "parent": "/(main)/_main",
       "children": [
         "/(main)/_main/_protected/battle/",
-        "/(main)/_main/_protected/random/"
+        "/(main)/_main/_protected/random/",
+        "/(main)/_main/_protected/stats/"
       ]
     },
     "/(auth)/_auth/join/": {
@@ -356,6 +378,10 @@ export const routeTree = rootRoute
     },
     "/(main)/_main/_protected/random/": {
       "filePath": "(main)/_main/_protected/random/index.tsx",
+      "parent": "/(main)/_main/_protected"
+    },
+    "/(main)/_main/_protected/stats/": {
+      "filePath": "(main)/_main/_protected/stats/index.tsx",
       "parent": "/(main)/_main/_protected"
     }
   }

@@ -11,8 +11,6 @@ import { PasswordStrength } from "./password-strength";
 import zxcvbn from "zxcvbn";
 
 export function JoinForm() {
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const form = useForm<JoinSchema, ZodValidator>({
@@ -59,10 +57,6 @@ export function JoinForm() {
         }}
       >
         <div className="flex flex-col gap-y-std-md">
-          <form.Subscribe
-            selector={(state) => state.isValid}
-            children={(isValid) => <>isValid: {isValid.toString()}</>}
-          />
           <form.Field
             name="email"
             children={(field) => (

@@ -3,7 +3,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import { FileRoutesByPath } from "@tanstack/react-router";
 import { useSession } from "~/lib/auth-client";
-import { Avatar } from "@mui/material";
+import { Avatar, Button, Link as MaterialLink } from "@mui/material";
 import { UserDropdown } from "~/routes/(main)/_main/-components/user-dropdown";
 
 type Link = {
@@ -27,13 +27,12 @@ export function Nav() {
     <nav className="p-std-content flex justify-between h-20">
       <div className="flex-1 flex items-center">
         <Link
-          to="/"
-          activeProps={{
-            className: "underscore",
+          href="/stats"
+          onClick={() => {
+            console.info("I'm a button.");
           }}
-          className=""
         >
-          Creatures
+          <Button>Stats</Button>
         </Link>
       </div>
       <div className=" flex items-stretch">
@@ -55,7 +54,7 @@ export function Nav() {
           activeProps={{
             className: "",
           }}
-          className="h-full text-blue-700 bg-yellow-500 px-5 py-2 rounded-md shadow text-primary-foreground border-t-0 border-r-0 border-[2.5px] border-blue-800"
+          className="h-full text-blue-600 bg-yellow-500 px-5 tracking-widest py-2 rounded-md shadow text-primary-foreground border-t-0 border-r-0 border-[2.5px] border-blue-800"
         >
           Battle
         </Link>

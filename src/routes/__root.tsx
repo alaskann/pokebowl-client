@@ -16,7 +16,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 function RootComponent() {
   return (
     <Providers>
-      <div className="flex justify-center w-full min-h-screen antialiased">
+      <div className="flex justify-center w-full min-h-[2000px] antialiased">
         <div className="max-w-2xl w-full box-border">
           <Outlet />
         </div>

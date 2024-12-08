@@ -10,7 +10,6 @@ function RouteComponent() {
     <div className="space-y-std-md">
       <h1 className="text-center text-lg">Join PokeBowl</h1>
       <div className="space-y-std-content">
-        {" "}
         <JoinForm />
         <div className="text-right">
           Alright have an account?{" "}

@@ -1,5 +1,5 @@
 import { authClient } from "./lib/auth-client";
-import { Pokemon, pokemonSchema } from "./lib/schemas";
+import { Pokemon, PokemonBattleStats, pokemonSchema } from "./lib/schemas";
 import { Battle } from "./lib/types";
 import { getPokemonEndpoint, getRandomPokemonPair } from "./utils";
 
@@ -32,4 +32,18 @@ export async function createBattle(input: Battle) {
     throw new Error("Network request failed.");
   }
   return response.json();
+}
+
+export async function getWinLossRatios() {
+  const response = await fetch(
+    `${import.meta.env.VITE_API_BASE_URL}/api/stats`,
+    {
+      method: "GET",
+      credentials: "include",
+    }
+  );
+  if (!response.ok) {
+    throw new Error("Network request failed.");
+  }
+  return (await response.json()) as PokemonBattleStats[];
 }
