@@ -59,7 +59,7 @@ export function JoinForm() {
           <form.Field
             name="email"
             children={(field) => (
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-y-std-sm">
                 <TextField
                   id="outlined-basic"
                   label="Email"

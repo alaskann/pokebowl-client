@@ -36,7 +36,7 @@ export function LoginForm() {
           handleSignUp();
         }}
       >
-        <div className="flex flex-col gap-y-std-sm">
+        <div className="flex flex-col gap-y-std-content">
           <TextField
             id="outlined-basic"
             label="email"
