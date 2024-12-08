@@ -61,7 +61,10 @@ export function BattleStand({
               label={`Base XP ${pokemon.base_experience}`}
               variant="outlined"
             />
-            <Chip label={`Height ${pokemon.height} cm`} variant="outlined" />
+            <Chip
+              label={`Height ${pokemon.height * 10} cm`}
+              variant="outlined"
+            />
             <Chip
               label={`Weight ${pokemon.weight / 1000} kg`}
               variant="outlined"
