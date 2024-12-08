@@ -26,12 +26,7 @@ export function Nav() {
   return (
     <nav className="p-std-content flex justify-between h-20">
       <div className="flex-1 flex items-center">
-        <Link
-          href="/stats"
-          onClick={() => {
-            console.info("I'm a button.");
-          }}
-        >
+        <Link href="/stats">
           <Button>Stats</Button>
         </Link>
       </div>
