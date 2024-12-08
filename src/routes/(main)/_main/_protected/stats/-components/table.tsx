@@ -6,7 +6,7 @@ import {
   SortingState,
   useReactTable,
 } from "@tanstack/react-table";
-import { PokemonBattleStats } from "~/lib/schemas";
+import { PokemonBattleStats } from "~/lib/schemas/pokemon";
 import { columns } from "./table.definitions";
 import Paper from "@mui/material/Paper";
 import MUITable from "@mui/material/Table";

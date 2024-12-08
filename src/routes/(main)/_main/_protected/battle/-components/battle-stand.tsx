@@ -1,5 +1,5 @@
 import { ButtonBase, Card, Chip } from "@mui/material";
-import { Pokemon } from "~/lib/schemas";
+import { Pokemon } from "~/lib/schemas/pokemon";
 import { cn } from "~/utils";
 import { WinnerOverlay } from "./winner-overlay";
 import { useEffect, useState } from "react";

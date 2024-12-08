@@ -3,7 +3,7 @@ import {
   TableOptions,
   useReactTable,
 } from "@tanstack/react-table";
-import { PokemonBattleStats } from "~/lib/schemas";
+import { PokemonBattleStats } from "~/lib/schemas/pokemon";
 
 const columnHelper = createColumnHelper<PokemonBattleStats>();
 

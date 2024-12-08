@@ -5,7 +5,6 @@ import { POKEMON_BATTLE_QUERY_KEY } from "~/constants";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createBattle, fetchRandomPokemonPair } from "~/data";
 import { toast } from "sonner";
-import { AnimatePresence, motion } from "motion/react";
 import { backgrounds as backgroundsArray } from "~/lib/backgrounds";
 import { getUniqueRandomBackgrounds } from "~/utils";
 import { useEffect, useState } from "react";
@@ -19,17 +18,31 @@ function RouteComponent() {
     getUniqueRandomBackgrounds(backgroundsArray, 2)
   );
   const [disableSelection, setDisableSelection] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string>();
 
   const query = useQuery({
     queryKey: [POKEMON_BATTLE_QUERY_KEY],
     queryFn: fetchRandomPokemonPair,
     refetchOnMount: false,
+    retry: false,
     staleTime: Infinity,
   });
 
   useEffect(() => {
+    if (query.error) {
+      setErrorMessage("Something went wrong 😞. Try refreshing!");
+      return;
+    }
+    if (!query.error) {
+      setErrorMessage(undefined);
+    }
+    return () => setErrorMessage(undefined); // Needed?
+  }, [query.error]);
+
+  useEffect(() => {
+    // TODO: Remove for prod
     console.log("Query data has changed");
-  }, query.data);
+  }, [query.data]);
 
   const mutation = useMutation({
     mutationKey: ["pokemon-battle"],
@@ -46,7 +59,7 @@ function RouteComponent() {
 
   useEffect(() => {
     setBackgrounds(getUniqueRandomBackgrounds(backgroundsArray, 2));
-  }, query.data);
+  }, [query.data]);
 
   const handleWin = (winner: string) => {
     if (!query.data) return;
@@ -64,48 +77,41 @@ function RouteComponent() {
       }
     );
   };
-
-  if (!query.data) return false;
-
   return (
     <div className="gap-y-std-sm relative px-std-content pb-std-content h-full overflow-hidden flex flex-col">
-      {/* <div className="flex text-center space-x-3 justify-between items-center font-semibold">
-        Fight!
-      </div> */}
-      <div className="flex flex-col gap-y-std-md bg-std-content 2xl:gap-x-std-sm">
-        {/* <AnimatePresence mode="wait"> */}
-        {query.data?.map((pokemon, index) => (
-          <div
-            // initial={{ opacity: 0 }}
-            // animate={{ opacity: 1 }}
-            // exit={{ opacity: 0 }}
-            // transition={{ duration: 0.3 }}
-            key={pokemon.id}
-            className="flex relative"
-          >
-            <BattleStand
-              pokemon={pokemon}
-              onWin={(winner) => handleWin(winner)}
-              onDisableSelection={() => setDisableSelection(true)}
-              disabled={
-                disableSelection || mutation.isPending || query.isPending
-              }
-              background={backgrounds[index]}
-            />
+      {errorMessage && (
+        <div className="text-red-500 text-lg text-center p-std-content">
+          {errorMessage}
+        </div>
+      )}
+      {query.data ? (
+        <>
+          <div className="flex flex-col gap-y-std-md bg-std-content 2xl:gap-x-std-sm">
+            {query.data?.map((pokemon, index) => (
+              <div key={pokemon.id} className="flex relative">
+                <BattleStand
+                  pokemon={pokemon}
+                  onWin={(winner) => handleWin(winner)}
+                  onDisableSelection={() => setDisableSelection(true)}
+                  disabled={
+                    disableSelection || mutation.isPending || query.isPending
+                  }
+                  background={backgrounds[index]}
+                />
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-
-      <div className="flex justify-end">
-        <Button
-          onClick={() => {
-            query.refetch();
-          }}
-          className=""
-        >
-          Skip
-        </Button>
-      </div>
+          <div className="flex justify-end">
+            <Button
+              onClick={() => {
+                query.refetch();
+              }}
+            >
+              Skip
+            </Button>
+          </div>
+        </>
+      ) : null}
     </div>
   );
 }

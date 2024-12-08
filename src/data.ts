@@ -1,22 +1,20 @@
-import { authClient } from "./lib/auth-client";
-import { Pokemon, PokemonBattleStats, pokemonSchema } from "./lib/schemas";
+import { PokemonBattleStats, pokemonSchema } from "./lib/schemas/pokemon";
 import { Battle } from "./lib/types";
 import { getPokemonEndpoint, getRandomPokemonPair } from "./utils";
+import { z } from "zod";
 
 export async function fetchRandomPokemonPair() {
-  console.log("fetchrandom called");
   const ids = getRandomPokemonPair();
   const promises = ids.map(async (id) => {
-    const res = (await fetch(getPokemonEndpoint(id)).then((res) =>
-      res.json()
-    )) as Pokemon; // TODO: Finish validation schema
-    // const parsedRes = pokemonSchema.parse(res);
-    // console.log(parsedRes);
-    // return parsedRes;
-    return res ?? null;
+    return await fetch(getPokemonEndpoint(id)).then((res) => res.json());
   });
 
-  return await Promise.all(promises);
+  try {
+    return z.array(pokemonSchema).parse(await Promise.all(promises));
+  } catch (error) {
+    console.log(error);
+    throw new Error("Data failed schema validation");
+  }
 }
 
 export async function createBattle(input: Battle) {
