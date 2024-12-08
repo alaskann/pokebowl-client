@@ -25,7 +25,6 @@ export function LoginForm() {
         },
       }
     );
-    console.log({ email, name, password });
   };
 
   return (
@@ -45,7 +44,6 @@ export function LoginForm() {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            // error={true}
           />
           <TextField
             id="outlined-basic"
