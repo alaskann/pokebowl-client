@@ -58,7 +58,7 @@ export function Table({ data: rows }: { data: PokemonBattleStats[] }) {
                 return (
                   <TableCell key={header.id}>
                     <TableSortLabel
-                      active={header.column.getIsSorted() as boolean}
+                      active={Boolean(header.column.getIsSorted())}
                       onClick={header.column.getToggleSortingHandler()}
                     >
                       {header.isPlaceholder

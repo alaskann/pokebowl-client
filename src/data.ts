@@ -12,7 +12,6 @@ export async function fetchRandomPokemonPair() {
   try {
     return z.array(pokemonSchema).parse(await Promise.all(promises));
   } catch (error) {
-    console.log(error);
     throw new Error("Data failed schema validation");
   }
 }

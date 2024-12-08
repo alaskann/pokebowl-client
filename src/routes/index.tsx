@@ -3,9 +3,9 @@ import { createFileRoute, redirect } from "@tanstack/react-router";
 import { getSession } from "~/lib/auth-client";
 
 export const Route = createFileRoute("/")({
-  component: HomeComponent,
+  component: IndexComponent,
   beforeLoad: async () => {
-    const { data: session, error } = await getSession();
+    const session = await getSession();
     if (!session) throw redirect({ to: "/login" });
     throw redirect({
       to: "/battle",
@@ -13,6 +13,6 @@ export const Route = createFileRoute("/")({
   },
 });
 
-function HomeComponent() {
-  return <>HOME/INDEX</>;
+function IndexComponent() {
+  return <></>;
 }
