@@ -1,6 +1,33 @@
 import { z } from "zod";
 import zxcvbn from "zxcvbn";
 
+export const changePasswordSchema = z
+  .object({
+    currentPassword: z
+      .string()
+      .min(1, { message: "Current password is required" }),
+    newPassword: z
+      .string()
+      .min(1, { message: "New password is required" })
+      .refine(
+        (value) => {
+          return zxcvbn(value).score >= 3;
+        },
+        { message: "Password is too weak" }
+      ),
+    repeatedNewPassword: z
+      .string()
+      .min(1, { message: "Please repeat password" }),
+  })
+  .refine(
+    (values) => {
+      return values.newPassword === values.repeatedNewPassword;
+    },
+    { message: "Passwords do not match", path: ["repeatedNewPassword"] }
+  );
+
+export type ChangePasswordSchema = z.infer<typeof changePasswordSchema>;
+
 export const joinSchema = z
   .object({
     email: z

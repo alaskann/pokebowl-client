@@ -5,10 +5,10 @@ import { toast } from "sonner";
 import { signUp } from "~/lib/auth-client";
 import { useForm } from "@tanstack/react-form";
 import { ZodValidator, zodValidator } from "@tanstack/zod-form-adapter";
-import { JoinSchema, joinSchema } from "../-schema";
 import FieldInfo from "~/components/field-info";
 import { PasswordStrength } from "./password-strength";
 import zxcvbn from "zxcvbn";
+import { joinSchema, JoinSchema } from "~/lib/schemas/auth";
 
 export function JoinForm() {
   const navigate = useNavigate();
@@ -22,13 +22,13 @@ export function JoinForm() {
     },
     validators: { onChange: joinSchema },
     validatorAdapter: zodValidator(),
-    onSubmit: async () => {
-      if (form.state.isValid) {
+    onSubmit: async ({ value }) => {
+      if (form.state.isFormValid) {
         await signUp.email(
           {
-            email: form.state.values.email,
-            name: form.state.values.name,
-            password: form.state.values.password,
+            email: value.email,
+            name: value.name,
+            password: value.password,
             image: undefined, // Add profile image uploader
           },
           {
@@ -67,8 +67,9 @@ export function JoinForm() {
                   variant="outlined"
                   type="email"
                   value={field.state.value}
+                  onBlur={field.handleBlur}
                   onChange={(e) => field.setValue(e.target.value)}
-                  error={false}
+                  error={field.state.meta.errors.length > 0}
                 />
                 <FieldInfo fieldMeta={field.state.meta} />
               </div>
@@ -84,6 +85,7 @@ export function JoinForm() {
                   variant="outlined"
                   type="text"
                   value={field.state.value}
+                  onBlur={field.handleBlur}
                   onChange={(e) => field.setValue(e.target.value)}
                   error={false}
                 />
@@ -101,6 +103,7 @@ export function JoinForm() {
                   variant="outlined"
                   type="password"
                   value={field.state.value}
+                  onBlur={field.handleBlur}
                   onChange={(e) => field.setValue(e.target.value)}
                   error={false}
                 />
@@ -119,6 +122,7 @@ export function JoinForm() {
                   variant="outlined"
                   type="password"
                   value={field.state.value}
+                  onBlur={field.handleBlur}
                   onChange={(e) => field.setValue(e.target.value)}
                   error={false}
                 />
