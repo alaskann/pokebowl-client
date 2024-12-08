@@ -2,7 +2,7 @@ import { ButtonBase, Card, Chip } from "@mui/material";
 import { Pokemon } from "~/lib/schemas/pokemon";
 import { cn } from "~/utils";
 import { WinnerOverlay } from "./winner-overlay";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ContestantFrame } from "./contestant-frame";
 
 export function BattleStand({
@@ -68,7 +68,7 @@ export function BattleStand({
               variant="outlined"
             />
             <Chip
-              label={`Weight ${pokemon.weight / 1000} kg`}
+              label={`Weight ${pokemon.weight / 10} kg`}
               variant="outlined"
             />
           </div>
