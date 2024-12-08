@@ -31,7 +31,6 @@ export function BattleStand({
 
   return (
     <ButtonBase
-      // disabled={disabled}
       className={cn(
         "w-full relative select-none overflow-hidden",
         !disabled ? "hover:cursor-pointer" : null,
@@ -48,7 +47,10 @@ export function BattleStand({
         }}
       >
         <ContestantFrame background={background}>
-          <img src={pokemon.sprites.front_default} className="object-cover" />
+          <img
+            src={pokemon.sprites.front_default ?? ""}
+            className="object-cover"
+          />
         </ContestantFrame>
         <div className="flex flex-col py-std-sm px-std-md gap-y-2">
           <div className="flex">
