@@ -26,9 +26,7 @@ export function Nav() {
   return (
     <nav className="p-std-content flex justify-between h-20">
       <div className="flex-1 flex items-center">
-        <Link href="/stats">
-          <Button>Stats</Button>
-        </Link>
+        <UserDropdown />
       </div>
       <div className=" flex items-stretch">
         <Link
@@ -43,7 +41,9 @@ export function Nav() {
         </Link>
       </div>
       <div className="flex gap-x-std-md items-center flex-1 justify-end">
-        <UserDropdown />
+        <Link href="/stats">
+          <Button>Stats</Button>
+        </Link>
         <Link
           to="/battle"
           activeProps={{
