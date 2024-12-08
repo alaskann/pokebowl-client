@@ -119,10 +119,19 @@ export function ChangePassword() {
           )}
         />
         <div className="flex justify-end">
-          <Button variant="contained" type="submit">
-            {!!isPending && <Loader2 className="animate-spin mr-2" />}
-            Change Password
-          </Button>
+          <form.Subscribe
+            selector={(state) => [state.isDirty, state.isValid]}
+            children={([isDirty, isValid]) => (
+              <Button
+                variant="contained"
+                type="submit"
+                disabled={!isDirty || !isValid}
+              >
+                {!!isPending && <Loader2 className="animate-spin mr-2" />}
+                Change Password
+              </Button>
+            )}
+          />
         </div>
       </div>
     </form>
