@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { backgrounds as backgroundsArray } from "~/lib/backgrounds";
 import { getUniqueRandomBackgrounds } from "~/utils";
 import { useEffect, useState } from "react";
+import { Loader2 } from "lucide-react";
 
 export const Route = createFileRoute("/(main)/_main/_protected/battle/")({
   component: RouteComponent,
@@ -77,6 +78,11 @@ function RouteComponent() {
       {errorMessage && (
         <div className="text-red-500 text-lg text-center p-std-content">
           {errorMessage}
+        </div>
+      )}
+      {query.isPending && !query.data && (
+        <div className="w-full h-[400px] grid place-items-center">
+          <Loader2 className="animate-spin" />
         </div>
       )}
       {query.data ? (
