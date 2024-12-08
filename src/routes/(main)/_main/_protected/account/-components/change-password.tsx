@@ -64,7 +64,7 @@ export function ChangePassword() {
         <form.Field
           name="currentPassword"
           children={(field) => (
-            <div className="w-full">
+            <div className="space-y-std-sm">
               <TextField
                 id="outlined-basic"
                 type="password"
@@ -84,7 +84,7 @@ export function ChangePassword() {
         <form.Field
           name="newPassword"
           children={(field) => (
-            <div>
+            <div className="space-y-std-sm">
               <TextField
                 id="outlined-basic"
                 type="password"
@@ -104,7 +104,7 @@ export function ChangePassword() {
         <form.Field
           name="repeatedNewPassword"
           children={(field) => (
-            <div>
+            <div className="space-y-std-sm">
               <TextField
                 id="outlined-basic"
                 type="password"
