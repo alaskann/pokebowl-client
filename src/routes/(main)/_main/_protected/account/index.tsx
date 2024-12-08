@@ -29,11 +29,7 @@ function RouteComponent() {
     <div>
       <div className="text-xl px-std-content text-center">Account</div>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          aria-label="basic tabs example"
-        >
+        <Tabs value={value} onChange={handleChange} aria-label="account tabs">
           <Tab label="Password" {...a11yProps(0)} />
           <Tab label="Close Account" {...a11yProps(1)} />
         </Tabs>

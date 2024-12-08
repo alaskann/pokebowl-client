@@ -4,7 +4,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { Avatar } from "@mui/material";
 import { signOut, useSession } from "~/lib/auth-client";
 import { DEFAULT_AVATAR_URL } from "~/constants";
-import { useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 
 export function UserDropdown() {
   const { data: session } = useSession();
@@ -44,6 +44,9 @@ export function UserDropdown() {
         className="mt-std-sm"
       >
         <div className="px-4 py-2">Welcome {session?.user.name}!</div>
+        <MenuItem>
+          <Link to="/account">Account</Link>
+        </MenuItem>
         <MenuItem
           onClick={async () => {
             handleClose();

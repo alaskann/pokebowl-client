@@ -1,6 +1,5 @@
 import { Button, TextField } from "@mui/material";
-import { redirect, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { signUp } from "~/lib/auth-client";
 import { useForm } from "@tanstack/react-form";
@@ -29,7 +28,7 @@ export function JoinForm() {
             email: value.email,
             name: value.name,
             password: value.password,
-            image: undefined, // Add profile image uploader
+            image: undefined,
           },
           {
             onSuccess: () => {

@@ -72,7 +72,6 @@ export function Table({ data: rows }: { data: PokemonBattleStats[] }) {
           </TableHead>
           <TableBody>
             {table.getRowModel().rows.map((row) => {
-              console.log("row", row.id, row);
               return (
                 <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                   {row.getVisibleCells().map((cell) => (

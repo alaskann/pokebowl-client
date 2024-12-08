@@ -39,11 +39,6 @@ function RouteComponent() {
     return () => setErrorMessage(undefined); // Needed?
   }, [query.error]);
 
-  useEffect(() => {
-    // TODO: Remove for prod
-    console.log("Query data has changed");
-  }, [query.data]);
-
   const mutation = useMutation({
     mutationKey: ["pokemon-battle"],
     mutationFn: createBattle,
