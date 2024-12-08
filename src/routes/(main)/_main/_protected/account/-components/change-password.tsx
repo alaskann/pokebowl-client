@@ -67,6 +67,7 @@ export function ChangePassword() {
             <div className="w-full">
               <TextField
                 id="outlined-basic"
+                type="password"
                 label="Current password"
                 variant="outlined"
                 value={field.state.value}
@@ -86,6 +87,7 @@ export function ChangePassword() {
             <div>
               <TextField
                 id="outlined-basic"
+                type="password"
                 label="New password"
                 variant="outlined"
                 value={field.state.value}
@@ -105,6 +107,7 @@ export function ChangePassword() {
             <div>
               <TextField
                 id="outlined-basic"
+                type="password"
                 label="Repeat new password"
                 variant="outlined"
                 value={field.state.value}
