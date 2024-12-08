@@ -1,4 +1,6 @@
-import { PokemonBattleStats, pokemonSchema } from "./lib/schemas/pokemon";
+import { pokemonSchema } from "./lib/schemas/pokemon";
+import { pokemonBattleStats, PokemonBattleStats } from "./lib/schemas/stats";
+
 import { Battle } from "./lib/types";
 import { getPokemonEndpoint, getRandomPokemonPair } from "./utils";
 import { z } from "zod";
@@ -42,5 +44,5 @@ export async function getWinLossRatios() {
   if (!response.ok) {
     throw new Error("Network request failed.");
   }
-  return (await response.json()) as PokemonBattleStats[];
+  return z.array(pokemonBattleStats).parse(await response.json());
 }
