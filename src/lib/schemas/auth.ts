@@ -9,12 +9,9 @@ export const changePasswordSchema = z
     newPassword: z
       .string()
       .min(1, { message: "New password is required" })
-      .refine(
-        (value) => {
-          return zxcvbn(value).score >= 3;
-        },
-        { message: "Password is too weak" }
-      ),
+      .refine((value) => value.length === 0 || zxcvbn(value).score >= 3, {
+        message: "Password is too weak",
+      }),
     repeatedNewPassword: z
       .string()
       .min(1, { message: "Please repeat password" }),
@@ -38,12 +35,9 @@ export const joinSchema = z
     password: z
       .string()
       .min(1, { message: "Password is required" })
-      .refine(
-        (value) => {
-          return zxcvbn(value).score >= 3;
-        },
-        { message: "Password is too weak" }
-      ),
+      .refine((value) => value.length === 0 || zxcvbn(value).score >= 3, {
+        message: "Password is too weak",
+      }),
     passwordConfirm: z
       .string()
       .min(1, { message: "Password must be repeated" }),
